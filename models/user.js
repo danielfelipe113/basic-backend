@@ -1,41 +1,54 @@
-/**
- *
- * Author:  AppSeed.us
- *
- * License: MIT - Copyright (c) AppSeed.us
- * @link https://github.com/app-generator/nodejs-starter
- *
- */
 
-const uuid = require('uuid/v4');
 'use strict';
+const uuid = require('uuid/v4');
+const Sequelize = require('sequelize');
+// const Model = db.Sequelize.Model
+
 module.exports = (sequelize, DataTypes) => {
-	let User = sequelize.define('User', {
+	class User extends Sequelize.Model {
+		//Setters and getters
+		// get fullName() {
+		// 	return this.firstname + ' ' + this.lastname;
+		// }
+		
+		// set fullName(value) {
+		// 	const names = value.split(' ');
+		// 	this.setDataValue('firstname', names.slice(0, -1).join(' '));
+		// 	this.setDataValue('lastname', names.slice(-1).join(' '));
+		// }
+	}
+
+	User.init({
 		id: {
 			allowNull: false,
 			primaryKey: true,
 			type: DataTypes.UUID,
 			defaultValue: () => uuid()
 		},
-		name: DataTypes.STRING,
-		surname: DataTypes.STRING,
-		email: {
-			type: DataTypes.STRING,
+		firstName: {
+			type: Sequelize.STRING,
 			allowNull: false
-		},
-		password: {
-			type: DataTypes.STRING,
-			allowNull: false
+		  },
+		lastName: {
+			type: Sequelize.STRING
+			// allowNull defaults to true
 		}
-	},
-	{
-		indexes: [
-			{
-				unique: true,
-				fields: ['email']
+	}, {
+		sequelize,
+  		modelName: 'user',
+		
+		hooks: {
+			beforeBulkCreate(companies, fields) {
+				
+			},
+			beforeCreate(company, fields) {
+			
+			},
+			beforeUpdate(company, fields) {
+				
 			}
-		]
+		}
 	});
-    
+
 	return User;
-};
+}

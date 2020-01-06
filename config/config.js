@@ -1,19 +1,17 @@
-/**
- *
- * Author:  AppSeed.us
- *
- * License: MIT - Copyright (c) AppSeed.us
- * @link https://github.com/app-generator/nodejs-starter
- *
- */
+//CAREFUL! IF SEEDING DB IT WILL DROP EVERYTHING!
 
 module.exports = {
 	development: {
-		dialect: 'sqlite',
-		storage: './db.development.sqlite'
+		username: 'homestead',
+		password: 'secret',
+		database: 'tests',
+		host: '127.0.0.1',
+		port: 33060,
+		dialect: 'mysql',
+		seedDB: true,
 	},
 	test: {
-		dialect: 'sqlite',
+		dialect: 'mysql',
 		storage: ':memory:'
 	},
 	production: {
@@ -22,6 +20,7 @@ module.exports = {
 		database: process.env.DB_NAME,
 		host: process.env.DB_HOSTNAME,
 		dialect: 'mysql',
-		use_env_variable: 'DATABASE_URL'
+		use_env_variable: 'DATABASE_URL',
+		seedDB: false,
 	}
 };
