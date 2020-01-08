@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-undef */
 
-const commonService = require('../../common.service');
+const commonService = require('../../../utils/common.service');
 const Joi         = require('joi');
 const passport    = require('passport');
 const generateJWT = require('../../../utils/generateJWT');

@@ -1,7 +1,9 @@
 
 'use strict';
+const crypto = require('crypto');
 const uuid = require('uuid/v4');
 const Sequelize = require('sequelize');
+const authService = require('../utils/auth.service');
 // const Model = db.Sequelize.Model
 
 module.exports = (sequelize, DataTypes) => {
@@ -32,23 +34,48 @@ module.exports = (sequelize, DataTypes) => {
 		lastName: {
 			type: Sequelize.STRING
 			// allowNull defaults to true
-		}
+		},
+		email: {
+            type: DataTypes.STRING,
+            unique: {
+                msg: 'The specified email address is already in use.'
+            },
+            validate: {
+                isEmail: true
+            }
+        },
+		password: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: true
+            }
+		},
+		provider: DataTypes.STRING,
+        salt: DataTypes.STRING
 	}, {
 		sequelize,
   		modelName: 'user',
 		
 		hooks: {
-			beforeBulkCreate(companies, fields) {
-				
+			beforeBulkCreate(users, fields) {				
+				let promises = [];
+                users.forEach(user => promises.push(authService.updatePassword(user)));
+				return Promise.all(promises);
 			},
-			beforeCreate(company, fields) {
-			
+			beforeCreate(user, fields) {
+				return authService.updatePassword(user);
 			},
-			beforeUpdate(company, fields) {
-				
-			}
+			beforeUpdate(user, fields) {
+				if(user.changed('password')) {
+                    return authService.updatePassword(user);
+                }
+                return Promise.resolve(user);
+			},
 		}
 	});
+
+ 
+ 
 
 	return User;
 }

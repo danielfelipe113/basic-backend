@@ -20,9 +20,15 @@ module.exports = function seedDatabaseIfNeeded() {
             lastName: "Doe",
 			password  : 'demo'
         }])
+        .then(() => db.user.create({
+            id        : 3,
+			firstName: 'John2',
+            lastName: 'Hancock',
+			password  : 'demo'
+        }))
         .then(() => console.log('finished populating users'))
         .catch(err => console.log('error populating users', err)));
-        
+     
         
     const companyPromise = db.company.destroy({ where: {} })
         .then(() => db.company.bulkCreate([{

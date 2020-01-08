@@ -2,7 +2,7 @@
 
 const passport         = require('passport');
 const LocalStrategy    = require('passport-local');
-const validatePassword = require('../utils/validatePassword');
+const authService = require('../utils/auth.service');
 const User            = require('../models').User;
 
 passport.use(new LocalStrategy({
@@ -17,7 +17,7 @@ passport.use(new LocalStrategy({
 	}
 
 	// Validate password
-	if ( !validatePassword(password, user.password) ) {
+	if ( !authService.validatePassword(password, user.password) ) {
 		return done(null, false, { errors: { 'password': 'Password is invalid'}});
 	}
 
