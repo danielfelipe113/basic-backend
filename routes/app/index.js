@@ -9,7 +9,9 @@ router.get('/', async (req, res) => {
   const employees = await Employee.findAll({
     include: [
       {
-        model: Company
+        model: Company,
+        attributes: ['id', 'name', 'size'],
+        required: false,
       }
     ]
   });
