@@ -20,12 +20,7 @@ module.exports = function seedDatabaseIfNeeded() {
             lastName: "Doe",
 			password  : 'demo'
         }])
-        .then(() => db.user.create({
-            id        : 3,
-			firstName: 'John2',
-            lastName: 'Hancock',
-			password  : 'demo'
-        }))
+        
         .then(() => console.log('finished populating users'))
         .catch(err => console.log('error populating users', err)));
      
@@ -60,11 +55,16 @@ module.exports = function seedDatabaseIfNeeded() {
             size: 32,
         }])
         .then(() => console.log('finished populating company'))
+        .then(async () => {
+            const employees = await db.employee.findAll();
+            const companies = await db.company.findAll();
+            employees.forEach(async employee => await       employee.setCompanies([companies[0]]))
+        })
 		.catch(err => console.log('error populating company', err)));
     
     promises.push(userPromise);
-    promises.push(companyPromise);
     promises.push(employeePromise);
+    promises.push(companyPromise);
 
     return Promise.all(promises);
 }
