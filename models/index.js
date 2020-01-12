@@ -45,7 +45,7 @@ db.Sequelize = Sequelize;
 
 //Associations
 
-db.company.belongsToMany(db.user, {through: 'userCompany'});
-db.user.belongsToMany(db.company, {through: 'userCompany'});
+db.company.belongsToMany(db.employee, {through: 'employeeCompany'});
+db.employee.belongsToMany(db.company, {through: 'employeeCompany'});
 
 module.exports = db;

@@ -1,0 +1,28 @@
+<h1>Example App: Home</h1>
+
+
+<h3>Employees</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Last Name</th>
+            <th>Current company</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each employees}}
+        <tr>
+          <td>
+            <a href="/employees/{{{id}}}">{{firstName}}</a>
+          </td>
+          <td>
+            <a href="/employees/{{{id}}}">{{lastName}}</a>
+          </td>
+          <td>
+            <a href="/employees/{{{id}}}">{{currentCompany}}</a>
+          </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

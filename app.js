@@ -1,18 +1,23 @@
+const express									= require('express');
+const bodyParser							= require('body-parser');
+const session									= require('express-session');
+const exphbs									= require('express-handlebars');
+const cors										= require('cors');
+const db											= require('./models');
+const seedDatabaseIfNeeded		= require('./config/seed');
+const debug										= require('debug')(':server');
+const env											= process.env.NODE_ENV || 'development';
+const config									= require('./config/config.js')[env];
 
-const express    = require('express');
-const bodyParser = require('body-parser');
-const session    = require('express-session');
-const cors       = require('cors');
-const db     = require('./models');
-const seedDatabaseIfNeeded = require('./config/seed');
-const debug = require('debug')(':server');
-const env = process.env.NODE_ENV || 'development';
-const config = require('./config/config.js')[env];
 /* Make all variables from our .env file available in our process */
 require('dotenv').config();
 
 /* Init express */
 const app = express();
+
+/* Set rendering engine */
+app.engine('.hbs', exphbs({extname: '.hbs'}));
+app.set('view engine', 'hbs');
 
 /* Here we setup the middlewares & configs */
 
