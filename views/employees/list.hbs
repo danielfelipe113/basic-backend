@@ -20,7 +20,9 @@
             <a href="/employees/{{{id}}}">{{lastName}}</a>
           </td>
           <td>
-            <a href="/employees/{{{id}}}">{{currentCompany}}</a>
+            {{#each companies}}
+            <a href="/employees/{{{id}}}">{{name}}</a>
+            {{/each}}
           </td>
         </tr>
     {{/each}}
