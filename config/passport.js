@@ -3,11 +3,11 @@
 const passport         = require('passport');
 const LocalStrategy    = require('passport-local');
 const authService = require('../utils/auth.service');
-const User            = require('../models').User;
+const User            = require('../models').user;
 
 passport.use(new LocalStrategy({
-	usernameField: 'user[email]',
-	passwordField: 'user[password]',
+	usernameField: 'email',
+	passwordField: 'password',
 }, async (email, password, done) => {
 	// Recover the user
 	let user = await User.findOne({where: {email}});
@@ -17,7 +17,7 @@ passport.use(new LocalStrategy({
 	}
 
 	// Validate password
-	if ( !authService.validatePassword(password, user.password) ) {
+	if ( !authService.validatePassword(password, user.password, user.salt) ) {
 		return done(null, false, { errors: { 'password': 'Password is invalid'}});
 	}
 

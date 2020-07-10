@@ -3,23 +3,8 @@
 const crypto = require('crypto');
 
 
-function validatePassword(password, hashedPassword) {
-    if(!callback) {
-        return this.password === encryptPassword(password);
-    }
-
-    var _this = this;
-    encryptPassword(password, function(err, pwdGen) {
-        if(err) {
-            callback(err);
-        }
-
-        if(_this.password === pwdGen) {
-            callback(null, true);
-        } else {
-            callback(null, false);
-        }
-    });
+function validatePassword(password, hashedPassword, salt) {
+    return hashedPassword === encryptPassword(password, salt);    
 }
 
 function encryptPassword(password, salt, callback) {

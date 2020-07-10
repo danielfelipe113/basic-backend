@@ -1,4 +1,4 @@
-let debug = require('debug')('smartfood-backend:commonService');
+let debug = require('debug')(':server');
 
 /*
  * Helpers.
@@ -8,6 +8,7 @@ function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function(err) {
         debug('Error Err: ', err);
+        console.log('Error:', err);
         return res.status(statusCode).send(err);
     };
 }

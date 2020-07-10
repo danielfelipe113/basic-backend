@@ -2,11 +2,11 @@
 
 module.exports = {
 	development: {
-		username: process.env.DB_USERNAME || 'homestead',
-		password: process.env.DB_PASSWORD || 'secret',
-		database: process.env.DB_NAME || 'tests',
-		host: '127.0.0.1',
-		port: process.env.DB_PORT || 33060,
+		username: 'vet',
+		password: 'secret',
+		database: 'veterinary',
+		host: '142.93.53.238',
+		port: 3306,
 		dialect: 'mysql',
 		seedDB: true,
 	},

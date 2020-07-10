@@ -28,3 +28,18 @@ $ npm run dev # with nodemon live update
 Runs the application with [nodemon]("https://nodemon.io/"). Server is listening on Port 3000 by default. This can be overwritten by `PORT` constant in `.env` file. 
 
 <br />
+142.93.53.238
+Salsadetomate0124Especial
+GRANT ALL ON vet_db.* TO vet@'142.93.53.238' IDENTIFIED BY 'root';
+
+update db set Host='142.93.53.238' where Db='vet_db';
+
+
+
+CREATE USER 'vet_user'@'localhost' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON veterinary.* TO 'vet_user'@'localhost';
+
+UPDATE mysql.user SET HOST='%' WHERE User='vet';
+
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'vet'@'localhost';
+DROP USER 'vet'@'localhost';

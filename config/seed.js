@@ -1,39 +1,45 @@
 const db = require('../models');
 const env = process.env.NODE_ENV || 'development';
 const config = require('./config.js')[env];
-
-module.exports = function seedDatabaseIfNeeded() {
+const debug = require('debug')('SERVER');
+module.exports = async function seedDatabaseIfNeeded() {
     if(!config.seedDB) {
         return Promise.resolve();
     }
 
     let promises = [];
-    const userPromise = db.user.destroy({ where: {} })
+    const userPromise = await db.user.destroy({ where: {} })
         .then(() => db.user.bulkCreate([{
             id        : 1,
 			firstName: 'John',
             lastName: 'Hancock',
-			password  : 'demo'
+            email: 'john@hancock.com',
+			password  : 'secret'
         }, {
 			id        : 2,
             firstName: "Jane",
             lastName: "Doe",
-			password  : 'demo'
+            email: 'Jane@Doe.IO',
+			password  : 'secret'
         }])
         
         .then(() => console.log('finished populating users'))
         .catch(err => console.log('error populating users', err)));
      
 
-    const employeePromise = db.employee.destroy({ where: {} })
+    const employeePromise = await db.employee.destroy({ where: {} })
         .then(() => db.employee.bulkCreate([{
             id        : 1,
 			firstName: 'John',
             lastName: 'Hancock',
+            email: 'john@hancokc.com',
+            password: 'secret'
         }, {
 			id        : 2,
             firstName: "Bob",
             lastName: "Doe",
+            email: 'bob@dow.com',
+            password: 'secret'
         }])
         .then(() => db.employee.create({
             id        : 3,
@@ -44,7 +50,7 @@ module.exports = function seedDatabaseIfNeeded() {
         .catch(err => console.log('error populating employees', err)));
      
         
-    const companyPromise = db.company.destroy({ where: {} })
+    const companyPromise = await db.company.destroy({ where: {} })
         .then(() => db.company.bulkCreate([{
             id: 1,
             name: 'Revista Hip',
@@ -58,7 +64,9 @@ module.exports = function seedDatabaseIfNeeded() {
         .then(async () => {
             const employees = await db.employee.findAll();
             const companies = await db.company.findAll();
-            employees.forEach(async employee => await       employee.setCompanies([companies[0]]))
+            employees.forEach(async employee => {
+                await employee.setCompanies([companies[0]]);
+            })
         })
 		.catch(err => console.log('error populating company', err)));
     

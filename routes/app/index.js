@@ -17,7 +17,10 @@ router.get('/', async (req, res) => {
   });
   
   console.log('--------------------')
-  console.log(await employees[0].get({plain: true}))
+  employees.forEach(e => {
+    console.log(e.get({plain: true}))
+
+  })
 
   console.log('--------------------')
 

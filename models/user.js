@@ -59,10 +59,15 @@ module.exports = (sequelize, DataTypes) => {
 		hooks: {
 			beforeBulkCreate(users, fields) {				
 				let promises = [];
-                users.forEach(user => promises.push(authService.updatePassword(user)));
+                users.forEach(user => {
+					console.log(typeof user.dataValues.email)
+					user.email = user.dataValues.email.toLowerCase();
+					promises.push(authService.updatePassword(user))
+				});
 				return Promise.all(promises);
 			},
 			beforeCreate(user, fields) {
+				user.email = user.email.toLowerCase();
 				return authService.updatePassword(user);
 			},
 			beforeUpdate(user, fields) {
